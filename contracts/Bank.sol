@@ -65,13 +65,15 @@ contract Bank {
 
     clientBalance[contractAddr][msg.sender] -= amount;
     clientBalance[contractAddr][to] += amount;
+
+    return true;
   }
 
   function transfer(uint256 amount, bytes32 name, address contractAddr) external returns (bool) {
     address clientAddr = clientNames[name];
-    transfer()
+    bool transferred = _transfer(amount, clientAddr, contractAddr);
 
-    return;
+    return transferred;
   }
 
 }
