@@ -3,24 +3,16 @@ pragma solidity ^0.8.0;
 
 interface IERC20 {
   function allowance(address owner, address spender) external view returns (uint256 remaining);
-  function approve(address spender, uint256 value) external returns (bool success);
-  function balanceOf(address owner) external view returns (uint256 balance);
-  function decimals() external view returns (uint8 decimalPlaces);
-  function decreaseApproval(address spender, uint256 addedValue) external returns (bool success);
-  function increaseApproval(address spender, uint256 subtractedValue) external;
-  function name() external view returns (string memory tokenName);
-  function symbol() external view returns (string memory tokenSymbol);
-  function totalSupply() external view returns (uint256 totalTokensIssued);
   function transfer(address to, uint256 value) external returns (bool success);
   function transferFrom(address from, address to, uint256 value) external returns (bool success);
 }
 
 contract Bank {
   // Contract Address -> (Client Address -> Balance)
-  mapping(address => mapping(address => uint256)) private clientBalance;
+  mapping(address => mapping(address => uint256)) public clientBalance;
 
   // Client Account Name -> Client Address
-  mapping(bytes32 => address) private clientNames;
+  mapping(bytes32 => address) public clientNames;
 
   address owner;
   modifier onlyOwner
@@ -53,7 +45,7 @@ contract Bank {
     require(amount <= balance, "Not enough balance!");
 
     clientBalance[contractAddr][msg.sender] -= amount;
-    bool withdrawn = IERC20(contractAddr).transferFrom(address(this), msg.sender, amount);
+    bool withdrawn = IERC20(contractAddr).transfer(msg.sender, amount);
 
     return withdrawn;
 
@@ -69,8 +61,17 @@ contract Bank {
     return true;
   }
 
+  function calculateFee(uint256 amount) public pure returns (uint256) {
+    return amount - amount * 1/10;
+  }
+
   function transfer(uint256 amount, bytes32 name, address contractAddr) external returns (bool) {
     address clientAddr = clientNames[name];
+
+    if (clientAddr != msg.sender) {
+      amount = calculateFee(amount);
+    }
+
     bool transferred = _transfer(amount, clientAddr, contractAddr);
 
     return transferred;
