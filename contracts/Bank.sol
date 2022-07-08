@@ -9,7 +9,10 @@ interface IERC20 {
 
 contract Bank {
   // Contract Address -> (Client Address -> Balance)
-  mapping(address => mapping(address => uint256)) public clientBalance;
+  mapping(address => mapping(address => uint256)) public clientTotalBalance;
+
+  // (Client Account Name -> Balance)
+  mapping(bytes32 => uint256) public clientAccountBalance;
 
   // Client Account Name -> Client Address
   mapping(bytes32 => address) public clientNames;
@@ -34,17 +37,17 @@ contract Bank {
     require(amount <= allowance, "Not enough allowance!");
 
     bool deposited = IERC20(contractAddr).transferFrom(msg.sender, address(this), amount);
-    clientBalance[contractAddr][msg.sender] += amount;
+    clientTotalBalance[contractAddr][msg.sender] += amount;
 
     return deposited;
 
   }
 
   function withdraw(uint256 amount, address contractAddr) external returns (bool) {
-    uint256 balance = clientBalance[contractAddr][msg.sender];
+    uint256 balance = clientTotalBalance[contractAddr][msg.sender];
     require(amount <= balance, "Not enough balance!");
 
-    clientBalance[contractAddr][msg.sender] -= amount;
+    clientTotalBalance[contractAddr][msg.sender] -= amount;
     bool withdrawn = IERC20(contractAddr).transfer(msg.sender, amount);
 
     return withdrawn;
@@ -52,11 +55,11 @@ contract Bank {
   }
 
   function _transfer(uint256 amount, address to, address contractAddr) public returns (bool) {
-    uint256 balance = clientBalance[contractAddr][msg.sender];
+    uint256 balance = clientTotalBalance[contractAddr][msg.sender];
     require(amount <= balance, "Not enough balance!");
 
-    clientBalance[contractAddr][msg.sender] -= amount;
-    clientBalance[contractAddr][to] += amount;
+    clientTotalBalance[contractAddr][msg.sender] -= amount;
+    clientTotalBalance[contractAddr][to] += amount;
 
     return true;
   }

@@ -100,12 +100,12 @@ def test_transfer_by_name():
 
     amount = Wei("1 ether")
 
-    user1 = "USER1".encode('utf-8')
-    user2 = "USER2".encode('utf-8')
+    user1 = "JAMES-ACC1".encode('utf-8')
+    user2 = "JAMES-ACC2".encode('utf-8')
 
     #Creating accounts for both users
     bank_contract.createAccount(user1, user_acc_1, {"from": user_acc_1})
-    bank_contract.createAccount(user2, user_acc_2, {"from": user_acc_1})
+    bank_contract.createAccount(user2, user_acc_1, {"from": user_acc_1})
 
     #Approving bank contract for ERC20 transfer from user_acc_1
     DAI.approve(bank_contract, amount, {"from": user_acc_1})
@@ -117,9 +117,8 @@ def test_transfer_by_name():
     bank_contract.transfer(amount, user2, DAI.address, {"from": user_acc_1})
 
     #Getting balance of user2 in the contract
-    user2_balance = bank_contract.clientBalance(DAI.address, user_acc_2)
+    user2_balance = bank_contract.clientTotalBalance(DAI.address, user_acc_2)
 
-    amount = amount - (amount * 0.1)
     assert user2_balance == amount
 
 
