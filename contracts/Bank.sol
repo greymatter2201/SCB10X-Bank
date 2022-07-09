@@ -8,58 +8,59 @@ interface IERC20 {
 }
 
 contract Bank {
-  // Contract Address -> (Client Address -> Balance)
-  mapping(address => mapping(address => uint256)) public clientTotalBalance;
-
-  // (Client Account Name -> Balance)
-  mapping(bytes32 => uint256) public clientAccountBalance;
+  // Contract Address -> (Client Account Name -> Balance)
+  mapping(address => mapping(bytes32 => uint256)) public accountBalances;
 
   // Client Account Name -> Client Address
-  mapping(bytes32 => address) public clientNames;
+  mapping(bytes32 => address) public accountAddr;
 
-  address owner;
-  modifier onlyOwner
-  {
-    require(msg.sender == owner);
-    _;
+  function createAccount(bytes32 name) external returns(bool) {
+    address clientAddress = msg.sender;
+    accountAddr[name] = clientAddress;
+    return true;
   }
 
-  constructor() {
-    owner = msg.sender;
+  function getAccountBalance(bytes32 accountName, address contractAddr) external view returns(uint256) {
+    return accountBalances[contractAddr][accountName];
   }
 
-  function createAccount(bytes32 name, address clientAddr) external onlyOwner {
-    clientNames[name] = clientAddr;
-  }
 
-  function deposit(uint256 amount, address contractAddr) external returns (bool) {
+  function deposit(uint256 amount, address contractAddr, bytes32 name) external returns (bool) {
+    
+    address clientAddress = accountAddr[name];
+    require(clientAddress != address(0x0)); // dev: Account does not exist
+    
     uint256 allowance = IERC20(contractAddr).allowance(msg.sender, address(this));
-    require(amount <= allowance, "Not enough allowance!");
+    require(amount <= allowance); // dev: Not enough allowance
 
     bool deposited = IERC20(contractAddr).transferFrom(msg.sender, address(this), amount);
-    clientTotalBalance[contractAddr][msg.sender] += amount;
+    accountBalances[contractAddr][name] += amount;
 
     return deposited;
 
   }
 
-  function withdraw(uint256 amount, address contractAddr) external returns (bool) {
-    uint256 balance = clientTotalBalance[contractAddr][msg.sender];
-    require(amount <= balance, "Not enough balance!");
+  function withdraw(uint256 amount, address contractAddr, bytes32 name) external returns (bool) {
+    address clientAddress = accountAddr[name];
+    require(msg.sender == clientAddress); // dev: Account not owned by caller
 
-    clientTotalBalance[contractAddr][msg.sender] -= amount;
+    uint256 balance = accountBalances[contractAddr][name];
+    require(amount <= balance); // dev: Amount more than balance
+
+    accountBalances[contractAddr][name] -= amount;
     bool withdrawn = IERC20(contractAddr).transfer(msg.sender, amount);
 
     return withdrawn;
 
   }
 
-  function _transfer(uint256 amount, address to, address contractAddr) public returns (bool) {
-    uint256 balance = clientTotalBalance[contractAddr][msg.sender];
-    require(amount <= balance, "Not enough balance!");
+  function _transfer(uint256 amount, bytes32 from, bytes32 to, address contractAddr) public returns (bool) {
+    
+    uint256 balance = accountBalances[contractAddr][from];
+    require(amount <= balance); // dev: Amount more than balance
 
-    clientTotalBalance[contractAddr][msg.sender] -= amount;
-    clientTotalBalance[contractAddr][to] += amount;
+    accountBalances[contractAddr][from] -= amount;
+    accountBalances[contractAddr][to] += amount;
 
     return true;
   }
@@ -68,14 +69,18 @@ contract Bank {
     return amount - amount * 1/10;
   }
 
-  function transfer(uint256 amount, bytes32 name, address contractAddr) external returns (bool) {
-    address clientAddr = clientNames[name];
+  function transfer(uint256 amount, bytes32 from, bytes32 to, address contractAddr) public returns (bool) {
+    
+    address senderAddr = accountAddr[from];
+    require(senderAddr == msg.sender); // dev: Account does not belong to caller
 
-    if (clientAddr != msg.sender) {
+    address recipientAddr = accountAddr[to];
+
+    if (recipientAddr != msg.sender) {
       amount = calculateFee(amount);
     }
 
-    bool transferred = _transfer(amount, clientAddr, contractAddr);
+    bool transferred = _transfer(amount, from, to, contractAddr);
 
     return transferred;
   }
