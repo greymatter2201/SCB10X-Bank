@@ -85,4 +85,17 @@ contract Bank {
     return transferred;
   }
 
+  function multiTransfer(uint256 amount, bytes32 from, bytes32[5] calldata _to, address contractAddr) external returns (bool) {
+    for (uint i=0; i<_to.length; i++) {
+      bytes32 to = _to[i];
+      
+      if (to != 0) {
+        transfer(amount, from, to, contractAddr);
+      }
+      
+    }
+
+    return true;
+  }
+
 }
