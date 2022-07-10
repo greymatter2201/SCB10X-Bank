@@ -14,12 +14,12 @@ class createAccountForm(FlaskForm):
 class depositForm(FlaskForm):
     accountName = StringField("", validators=[InputRequired()], render_kw={"placeholder":"Account"})
     amount = StringField("", validators=[InputRequired()], render_kw={"placeholder":"amount"})
-    submit = SubmitField("deposit")
+    deposit = SubmitField("deposit")
 
 class withdrawForm(FlaskForm):
     accountName = StringField("", validators=[InputRequired()], render_kw={"placeholder":"recipient"})
     amount = StringField("", validators=[InputRequired()], render_kw={"placeholder":"amount"})
-    submit = SubmitField("withdraw")
+    withdraw = SubmitField("withdraw")
 
 class transferForm(FlaskForm):
     fromName = StringField("", validators=[InputRequired()], render_kw={"placeholder":"Account"})
