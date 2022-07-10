@@ -77,7 +77,7 @@ def banking():
             flash("Deposit Success!")
             
 
-    if trForm.submit.data and trForm.validate_on_submit():
+    if trForm.transfer.data and trForm.validate_on_submit():
         amount = trForm.amount.data
         fromName = trForm.fromName.data
         toName = trForm.toName.data
@@ -97,7 +97,7 @@ def banking():
             flash("Withdraw Success!")
             
 
-    if mTForm.submit.data and mTForm.validate_on_submit():
+    if mTForm.mulTransfer.data and mTForm.validate_on_submit():
         amount = mTForm.amount.data
         fromName = mTForm.fromName.data
 
