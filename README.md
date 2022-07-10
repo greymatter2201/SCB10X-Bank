@@ -2,6 +2,8 @@
 
 A simple bank contract with a frontend
 
+Contract Deployed at: 0xfdfaA2483E69fdbCd93faC9B128741F31f875F4d
+
 ## Contract Features
 * Account Creation 
 * Deposit ERC20
@@ -9,6 +11,7 @@ A simple bank contract with a frontend
 * Transfer ERC20 by Account Name
 * Multiple ERC20 Transfer by Account Name
 * 1% fee for transfers to account names not owned by caller
+* Able to work with and keep balance of any ERC20 Contract (Not implemented on the frontend)
 
 ### Dependencies
 
