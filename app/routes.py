@@ -88,7 +88,7 @@ def banking():
             
 
     if wiForm.submit.data and wiForm.validate_on_submit():
-        print("Withdraw")
+        
         amount = wiForm.amount.data
         accountName = wiForm.accountName.data
 
