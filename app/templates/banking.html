@@ -115,6 +115,7 @@
                 <button class="btn-close btn-close-black" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body border-0 p-4">
+            <p> 1% fee for transfers not owned by you</p>
             <form action="" method="POST" novalidate>
                 {{ form.hidden_tag() }}
                 {{ wtf.quick_form(trForm, button_map={"transfer":"danger"}) }}

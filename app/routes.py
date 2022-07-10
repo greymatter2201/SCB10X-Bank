@@ -117,7 +117,7 @@ def banking():
         "banking.html", 
         create=create, 
         form=form,
-        accounts=[(account, balanceDAI(account)) for account in accounts],
+        accounts=[(account, Web3.fromWei(balanceDAI(account), 'ether')) for account in accounts],
         title = title,
         options = options,
         deForm = deForm,
