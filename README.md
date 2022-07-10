@@ -39,3 +39,6 @@ flask run
 ```
 brownie test --network $NETWORK_NAME
 ```
+
+### Issues
+* Clicking withdraw in the UI somehow calls the deposit function
