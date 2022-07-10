@@ -109,8 +109,6 @@ def banking():
             mTForm.toAcc5.data,
         ]
 
-        to_name_arr = [account for account in to_name_arr if account == "" ]
-
         status = multiTransferDAI(amount, fromName, to_name_arr, user_account)
         if status:
             flash("Transfer Success!")
