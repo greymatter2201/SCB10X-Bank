@@ -25,7 +25,7 @@ class transferForm(FlaskForm):
     fromName = StringField("", validators=[InputRequired()], render_kw={"placeholder":"Account"})
     toName = StringField("", validators=[InputRequired()], render_kw={"placeholder":"recipient"})
     amount = StringField("", validators=[InputRequired()], render_kw={"placeholder":"amount"})
-    submit = SubmitField("transfer")
+    transfer = SubmitField("transfer")
 
 class multiTransferForm(FlaskForm):
     fromName = StringField("", validators=[InputRequired()], render_kw={"placeholder":"sender"})
@@ -35,7 +35,7 @@ class multiTransferForm(FlaskForm):
     toAcc4 = StringField("", render_kw={"placeholder":"Recipient"})
     toAcc5 = StringField("", render_kw={"placeholder":"Recipient"})
     amount = StringField("", validators=[InputRequired()], render_kw={"placeholder":"amount"})
-    submit = SubmitField("transfer")
+    mulTransfer = SubmitField("transfer")
 
 class optionButtons(FlaskForm):
     deposit = SubmitField("Deposit")

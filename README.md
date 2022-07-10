@@ -41,4 +41,4 @@ brownie test --network $NETWORK_NAME
 ```
 
 ### Issues
-* Clicking withdraw in the UI somehow calls the deposit function
+* ~~Clicking withdraw in the UI somehow calls the deposit function and vice versa~~ 

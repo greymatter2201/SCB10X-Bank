@@ -77,7 +77,7 @@ def banking():
             flash("Deposit Success!")
             
 
-    if trForm.submit.data and trForm.validate_on_submit():
+    if trForm.transfer.data and trForm.validate_on_submit():
         amount = trForm.amount.data
         fromName = trForm.fromName.data
         toName = trForm.toName.data
@@ -96,7 +96,7 @@ def banking():
             flash("Withdraw Success!")
             
 
-    if mTForm.submit.data and mTForm.validate_on_submit():
+    if mTForm.mulTransfer.data and mTForm.validate_on_submit():
         amount = mTForm.amount.data
         fromName = mTForm.fromName.data
 
@@ -107,8 +107,6 @@ def banking():
             mTForm.toAcc4.data,
             mTForm.toAcc5.data,
         ]
-
-        to_name_arr = [account for account in to_name_arr if account == "" ]
 
         status = multiTransferDAI(amount, fromName, to_name_arr, user_account)
         if status:

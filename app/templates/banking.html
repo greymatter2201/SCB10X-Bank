@@ -81,7 +81,7 @@
             <div class="modal-body border-0 p-4">
             <form action="" method="POST" novalidate>
                 {{ form.hidden_tag() }}
-                {{ wtf.quick_form(deForm, button_map={"submit":"danger"}) }}
+                {{ wtf.quick_form(deForm, button_map={"deposit":"danger"}) }}
             </form>
             </div>
         </div>
@@ -99,7 +99,7 @@
             <div class="modal-body border-0 p-4">
             <form action="" method="POST" novalidate>
                 {{ form.hidden_tag() }}
-                {{ wtf.quick_form(wiForm, button_map={"submit":"danger"}) }}
+                {{ wtf.quick_form(wiForm, button_map={"withdraw":"danger"}) }}
             </form>
             </div>
         </div>
@@ -117,7 +117,7 @@
             <div class="modal-body border-0 p-4">
             <form action="" method="POST" novalidate>
                 {{ form.hidden_tag() }}
-                {{ wtf.quick_form(trForm, button_map={"submit":"danger"}) }}
+                {{ wtf.quick_form(trForm, button_map={"transfer":"danger"}) }}
             </form>
             </div>
         </div>
@@ -136,7 +136,7 @@
             <div class="modal-body border-0 p-4">
             <form action="" method="POST" novalidate>
                 {{ form.hidden_tag() }}
-                {{ wtf.quick_form(mTForm, button_map={"submit":"danger"}) }}
+                {{ wtf.quick_form(mTForm, button_map={"mulTransfer":"danger"}) }}
             </form>
             </div>
         </div>
