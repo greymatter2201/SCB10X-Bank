@@ -25,7 +25,7 @@ You will need
 * CD into project folder
 
 ```
-export set FLASK_APP=web.py
+export FLASK_APP=web.py
 flask run
 ```
 
