@@ -1,0 +1,145 @@
+{% extends "base.html"%}
+
+{% block content %}
+<header class="masthead">
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    {% if accounts%}
+    {% for account, balance in accounts %}
+    <div class="container px-5 align-items-center">
+        <div class="row gx-5 justify-content-center">
+            <div class="card" style="width: 50rem;">
+                <p class="card-title">Account Name: {{ account }}</p>
+                <p class="card-text">Balance: {{ balance }} DAI</p>
+                <div class="card-body">          
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-outline-primary px-3 mb-2 mb-lg-0" data-bs-toggle="modal" data-bs-target="#depositModal">
+                                Deposit
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-outline-primary px-3 mb-2 mb-lg-0" data-bs-toggle="modal" data-bs-target="#withdrawModal">
+                                Withdraw
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-outline-primary px-3 mb-2 mb-lg-0" data-bs-toggle="modal" data-bs-target="#transferModal">
+                                Transfer
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-outline-primary px-3 mb-2 mb-lg-0" data-bs-toggle="modal" data-bs-target="#multiTransferModal">
+                                Multi Transfer
+                            </button>
+                        </div>
+                    </div>
+                <div>                  
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+</header>
+<!-- Create Account Modal -->
+<div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                <h5 class="modal-title font-alt text-white" id="accountModalLabel">Create Account</h5>
+                <button class="btn-close btn-close-black" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 p-4">
+            <form action="" method="POST" novalidate>
+                {{ form.hidden_tag() }}
+                {{ wtf.form_field(form.username)  }}
+                <br>
+                {{ wtf.form_field(form.createAcc, button_map={"createAcc":"success"})  }}
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Deposit Modal -->
+<div class="modal fade" id="depositModal" tabindex="-1" aria-labelledby="depositModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                <h5 class="modal-title font-alt text-white" id="depositModalLabel">Deposit</h5>
+                <button class="btn-close btn-close-black" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 p-4">
+            <form action="" method="POST" novalidate>
+                {{ form.hidden_tag() }}
+                {{ wtf.quick_form(deForm, button_map={"submit":"danger"}) }}
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Withdraw Modal -->
+<div class="modal fade" id="withdrawModal" tabindex="-1" aria-labelledby="withdrawModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                <h5 class="modal-title font-alt text-white" id="withdrawModalLabel">Withdraw</h5>
+                <button class="btn-close btn-close-black" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 p-4">
+            <form action="" method="POST" novalidate>
+                {{ form.hidden_tag() }}
+                {{ wtf.quick_form(wiForm, button_map={"submit":"danger"}) }}
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Transfer Modal -->
+<div class="modal fade" id="transferModal" tabindex="-1" aria-labelledby="transferModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                <h5 class="modal-title font-alt text-white" id="transferModalLabel">Transfer</h5>
+                <button class="btn-close btn-close-black" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 p-4">
+            <form action="" method="POST" novalidate>
+                {{ form.hidden_tag() }}
+                {{ wtf.quick_form(trForm, button_map={"submit":"danger"}) }}
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Multi Transfer Modal -->
+<div class="modal fade" id="multiTransferModal" tabindex="-1" aria-labelledby="multiTransferModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                <h5 class="modal-title font-alt text-white" id="multiTransferModalLabel">Transfer</h5>
+                <button class="btn-close btn-close-black" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 p-4">
+            <form action="" method="POST" novalidate>
+                {{ form.hidden_tag() }}
+                {{ wtf.quick_form(mTForm, button_map={"submit":"danger"}) }}
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
