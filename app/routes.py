@@ -67,7 +67,7 @@ def banking():
             flash("Account created!")
             
 
-    if deForm.submit.data and deForm.validate_on_submit():
+    if deForm.deposit.data and deForm.validate_on_submit():
         amount = deForm.amount.data
         accountName = deForm.accountName.data
 
@@ -87,8 +87,7 @@ def banking():
             flash("Transfer Success!")
             
 
-    if wiForm.submit.data and wiForm.validate_on_submit():
-        print("Withdraw")
+    if wiForm.withdraw.data and wiForm.validate_on_submit():
         amount = wiForm.amount.data
         accountName = wiForm.accountName.data
 
