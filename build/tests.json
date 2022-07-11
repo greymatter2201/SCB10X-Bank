@@ -1,0 +1,15 @@
+{
+  "contracts": {
+    "Bank": "08b90832dd8ba21bee1132f9708e1e975ecc08db"
+  },
+  "tests": {
+    "tests/bank_unit_test.py": {
+      "coverage": false,
+      "isolated": false,
+      "results": ".......",
+      "sha1": "b0acffce005b20ac961edfd665d6e99aabf61506",
+      "txhash": []
+    }
+  },
+  "tx": {}
+}
